@@ -5,19 +5,17 @@ server {
     root /var/www/html;
     index index.html;
 
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
+    location / { try_files $uri $uri/ /index.html; }
 
     location ~ \.php$ {
-        include fastcgi_params;
+        include /etc/nginx/fastcgi_params;   # <— абсолютный путь для Alpine
         fastcgi_param SCRIPT_FILENAME /var/www/html$fastcgi_script_name;
         fastcgi_pass 127.0.0.1:9000;
         fastcgi_read_timeout 60s;
     }
 
     location ~* \.(js|css|png|jpg|svg|ico)$ {
-        expires 7d;
-        access_log off;
+        expires 7d; access_log off;
     }
 }
+

@@ -1,10 +1,14 @@
 #!/usr/bin/env sh
 set -e
 
-# Render nginx.conf from template (Koyeb sets $PORT)
-envsubst '${PORT}' < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/default.conf
+# Alpine nginx использует /etc/nginx/http.d/*.conf
+NGX_DIR="/etc/nginx/http.d"
+mkdir -p "$NGX_DIR"
 
-# Create CORS wrapper for service.php
+# Рендерим конфиг из шаблона с учётом $PORT (Koyeb его задаёт)
+envsubst '${PORT}' < /etc/nginx/templates/nginx.conf.template > "${NGX_DIR}/default.conf"
+
+# CORS-обёртка для service.php
 cat > /var/www/html/service.php <<'PHPWRAP'
 <?php
 $origin = getenv('ALLOWED_ORIGIN') ?: '*';
@@ -25,3 +29,4 @@ require_once $core;
 PHPWRAP
 
 exec "$@"
+
