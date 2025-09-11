@@ -1,0 +1,6 @@
+{
+  "yandexMapsApiKey": "56082d8f-39ed-411a-8774-695e4270f885",
+  "servicePath": "/service.php",
+  "defaultFrom": "Москва",
+  "defaultLocation": "Москва"
+}
