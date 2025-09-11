@@ -33,6 +33,7 @@ jobs:
       #     username: ${{ secrets.DOCKERHUB_USER }}
       #     password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      # .github/workflows/docker-publish.yml (фрагмент)
       - name: Build & push image
         uses: docker/build-push-action@v6
         with:
@@ -40,8 +41,8 @@ jobs:
           file: docker/nginx-php/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE }}:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE }}:${{ env.TAG }}
-          # Если вы НЕ копируете service_core.php, а хотите подтянуть его при сборке — раскомментируйте:
+            ghcr.io/${{ github.repository_owner }}/cdek-nginx-php:latest
+            ghcr.io/${{ github.repository_owner }}/cdek-nginx-php:${{ github.sha }}
           build-args: |
-            SERVICE_CORE_URL=https://github.com/cdek-it/widget/blob/main/dist/service.php
+            SERVICE_CORE_URL=${{ secrets.SERVICE_CORE_URL }}
+      
