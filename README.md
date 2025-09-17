@@ -1,61 +1,32 @@
-# CDEK Widget на Amvera (single container: Nginx + PHP-FPM)
+# CDEK Widget на DockHost (single container: Nginx + PHP-FPM)
 
-Готовый проект для деплоя на **Amvera** с использованием Docker-образа. Образ внутри запускает nginx и php-fpm (через supervisord), отдаёт фронт и `service.php` на одном домене — идеально для Telegram WebApp.
+Готовый проект для деплоя на **DockHost** с использованием Docker-образа. Образ внутри запускает nginx и php-fpm (через supervisord), отдаёт фронт и `service.php` на одном домене — идеально для Telegram WebApp.
 
-## Конфигурация Amvera
-
-Проект настроен для работы с Amvera через файл `amvera.yaml`:
-
-```yaml
-meta:
-  environment: php
-  toolchain:
-    name: php
-    version: 8.2
-
-build:
-  packages:
-    - nginx
-    - supervisor
-    - curl
-    - gettext
-  php_extensions:
-    - bcmath
-
-run:
-  command: ["supervisord", "-c", "/etc/supervisord.conf"]
-  port: 8080
-  env:
-    PORT: "8080"
-    ALLOWED_ORIGIN: "*"
-```
-
-## Быстрый старт на Amvera
+## Быстрый старт на DockHost
 
 1. **Подготовка проекта:**
    - Замените `app/php/service_core.php` на **официальный** совместимый файл из CDEK Widget 3.x
    - Вставьте свой **Yandex Maps JS API key** в `app/public/config.json` (ограничьте по Referrer)
    - Настройте учетные данные CDEK в `app/php/service_core.php`
 
-2. **Деплой на Amvera:**
+2. **Деплой на DockHost:**
    - Загрузите проект в Git репозиторий (GitHub, GitLab, Bitbucket)
-   - В панели Amvera создайте новое приложение
+   - В панели DockHost создайте новый проект
    - Подключите ваш репозиторий
-   - Amvera автоматически обнаружит `amvera.yaml` и `Dockerfile`
+   - DockHost автоматически обнаружит `Dockerfile` и соберет образ
    - Настройте переменные окружения:
-     - `ALLOWED_ORIGIN=https://<ваш-домен>.amvera.ru`
+     - `ALLOWED_ORIGIN=https://<ваш-домен>.dockhost.ru`
      - `CDEK_USE_TEST_API=true` (для тестирования)
      - (опционально) `CDEK_ACCOUNT`, `CDEK_KEY`
 
 3. **Настройка Telegram Bot:**
-   - Укажите URL вашего приложения Amvera в BotFather как WebApp URL
+   - Укажите URL вашего приложения DockHost в BotFather как WebApp URL
    - Протестируйте работу виджета
 
 ## Структура проекта
 
 ```
-├── amvera.yaml              # Конфигурация для Amvera
-├── Dockerfile               # Docker образ для Amvera
+├── Dockerfile               # Docker образ для DockHost
 ├── app/
 │   ├── public/              # Фронтенд (HTML, CSS, JS)
 │   │   ├── index.html
@@ -77,7 +48,7 @@ run:
 - **CORS поддержка**: автоматическая настройка CORS заголовков
 - **Telegram WebApp**: полная поддержка Telegram WebApp SDK
 - **CDEK Widget v3**: интеграция с официальным виджетом СДЭК
-- **Amvera оптимизация**: настроен специально для платформы Amvera
+- **DockHost оптимизация**: настроен специально для платформы DockHost
 
 ## Переменные окружения
 

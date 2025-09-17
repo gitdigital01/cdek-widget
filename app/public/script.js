@@ -1,4 +1,4 @@
-// Telegram WebApp + CDEK Widget v3 (Amvera one-container)
+// Telegram WebApp + CDEK Widget v3 (DockHost one-container)
 class CdekWebApp {
   constructor() {
     this.tg = window.Telegram?.WebApp;
