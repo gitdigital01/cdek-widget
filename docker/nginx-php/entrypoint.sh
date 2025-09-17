@@ -1,12 +1,32 @@
 #!/usr/bin/env sh
 set -e
 
+echo "Starting entrypoint script..."
+
 # Alpine nginx использует /etc/nginx/http.d/*.conf
 NGX_DIR="/etc/nginx/http.d"
 mkdir -p "$NGX_DIR"
 
-# Рендерим конфиг из шаблона с учётом $PORT (Koyeb его задаёт)
+echo "Created nginx directory: $NGX_DIR"
+
+# Рендерим конфиг из шаблона с учётом $PORT (Amvera его задаёт)
+echo "Rendering nginx config with PORT=$PORT"
 envsubst '${PORT}' < /etc/nginx/templates/nginx.conf.template > "${NGX_DIR}/default.conf"
+
+echo "Nginx config created:"
+cat "${NGX_DIR}/default.conf"
+
+# Проверяем содержимое рабочей директории
+echo "Contents of /var/www/html:"
+ls -la /var/www/html/
+
+# Проверяем, что nginx конфиг валидный
+echo "Testing nginx configuration..."
+nginx -t
+
+# Проверяем права доступа
+echo "Checking permissions:"
+ls -la /var/www/html/index.html
 
 # CORS-обёртка для service.php
 cat > /var/www/html/service.php <<'PHPWRAP'
@@ -28,5 +48,6 @@ if (!is_file($core)) {
 require_once $core;
 PHPWRAP
 
+echo "Entrypoint script completed. Starting supervisord..."
 exec "$@"
 

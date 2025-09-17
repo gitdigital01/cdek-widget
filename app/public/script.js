@@ -1,4 +1,4 @@
-// Telegram WebApp + CDEK Widget v3 (Koyeb one-container)
+// Telegram WebApp + CDEK Widget v3 (Amvera one-container)
 class CdekWebApp {
   constructor() {
     this.tg = window.Telegram?.WebApp;
@@ -57,7 +57,7 @@ class CdekWebApp {
     const widgetConfig = {
       from,
       root: 'cdek-widget',
-      apiKey: this.config.yandexMapsApiKey,
+      apiKey: '56082d8f-39ed-411a-8774-695e4270f885', // this.config.yandexMapsApiKKey,
       servicePath: this.config.servicePath,
       defaultLocation,
       lang: 'rus',
